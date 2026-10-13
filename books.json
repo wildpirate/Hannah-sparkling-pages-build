@@ -1,0 +1,34 @@
+[
+  {
+    "id": "dziewczynka",
+    "title": "Dziewczynka, która znalazła jutro",
+    "pdf": "https://gifteeme.pl/pdfs/dziewczynka.pdf",
+    "cover": "assets/covers/dziewczynka.jpg",
+    "pages": 32,
+    "sizeMB": 43
+  },
+  {
+    "id": "miasto",
+    "title": "Miasto pod jeziorem",
+    "pdf": "https://gifteeme.pl/pdfs/miasto.pdf",
+    "cover": "assets/covers/miasto.jpg",
+    "pages": 48,
+    "sizeMB": 62
+  },
+  {
+    "id": "tajemnica",
+    "title": "Tajemnica domu na końcu ulicy",
+    "pdf": "https://gifteeme.pl/pdfs/tajemnica.pdf",
+    "cover": "assets/covers/tajemnica.jpg",
+    "pages": 25,
+    "sizeMB": 29
+  },
+  {
+    "id": "kura",
+    "title": "Wielka afera z kurą, której nikt nie ukradł",
+    "pdf": "https://gifteeme.pl/pdfs/kura.pdf",
+    "cover": "assets/covers/kura.jpg",
+    "pages": 22,
+    "sizeMB": 32
+  }
+]
