@@ -812,3 +812,19 @@ body.reading {
     scroll-behavior:auto!important;
   }
 }
+
+#password-dialog {
+  width:min(420px, calc(100% - 32px));
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--paper);
+  color:var(--ink);
+}
+#password-dialog::backdrop { background:#302d3580; }
+#password-form { display:grid; gap:16px; }
+#password-title { font-family:Literata,serif; font-size:24px; }
+#comic-password { width:100%; min-height:44px; padding:10px; border:1px solid var(--muted); border-radius:5px; background:var(--white); color:var(--ink); }
+.password-actions { display:flex; justify-content:flex-end; gap:12px; margin-top:8px; }
+.password-actions button { min-height:44px; padding:10px 16px; border:1px solid var(--line); border-radius:8px; background:var(--white); color:var(--ink); }
+.password-actions button:hover { background:var(--shelf); }

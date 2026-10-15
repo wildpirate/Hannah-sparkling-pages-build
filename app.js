@@ -4,6 +4,8 @@ let storage;
 try { storage = window.localStorage; } catch { /* Reading remains available without storage. */ }
 let books = [], activeBook = null, pdf = null, loadingTask = null;
 let pageNumber = 1, zoom = 1, generation = 0, renderGeneration = 0, renderTask = null, textLayer = null;
+let dragonballUnlocked = false;
+const locked = book => !dragonballUnlocked && ['dragonball-majtki', 'dragonball-pan-1'].includes(book.id);
 let pdfModule, busy = false, lastBookId = null;
 const icon = name => `<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
 const route = id => `#czytaj/${encodeURIComponent(id)}`;
@@ -14,7 +16,7 @@ const progress = book => readProgress(storage, book.id, book.pages);
 function renderLibrary() {
   $('books').innerHTML = books.map(book => {
     const saved = progress(book), started = saved && saved.page > 1;
-    return `<article class="book"><a class="cover-link" href="${route(book.id)}" aria-label="${started ? 'Czytaj dalej' : 'Czytaj'}: ${escapeHtml(book.title)}"><img src="${escapeHtml(book.cover)}" alt="Okładka książki ${escapeHtml(book.title)}" width="600" height="850" decoding="async">${started ? `<span class="ribbon" aria-hidden="true">${icon('bookmark')}</span>` : ''}</a><h3><a href="${route(book.id)}">${escapeHtml(book.title)}</a></h3><p class="book-meta">${started ? `Zakładka: strona ${saved.page} z ${book.pages}` : `${book.pages} ${plural(book.pages, ['strona', 'strony', 'stron'])} do odkrycia`}</p><a class="book-action ${started ? 'resume' : ''}" href="${route(book.id)}" aria-label="${started ? 'Czytaj dalej' : 'Czytaj książkę'}: ${escapeHtml(book.title)}"><span>${started ? 'Czytaj dalej' : 'Czytaj książkę'}</span>${icon('arrow')}</a></article>`;
+    return `<article class="book"><a class="cover-link" href="${route(book.id)}" aria-label="${started ? 'Czytaj dalej' : 'Czytaj'}: ${escapeHtml(book.title)}"><img src="${escapeHtml(book.cover)}" alt="Okładka książki ${escapeHtml(book.title)}" width="600" height="850" decoding="async">${started ? `<span class="ribbon" aria-hidden="true">${icon('bookmark')}</span>` : ''}</a><h3><a href="${route(book.id)}">${escapeHtml(book.title)}</a></h3><p class="book-meta">${locked(book) ? 'Dostęp po wpisaniu hasła' : started ? `Zakładka: strona ${saved.page} z ${book.pages}` : `${book.pages} ${plural(book.pages, ['strona', 'strony', 'stron'])} do odkrycia`}</p><a class="book-action ${started ? 'resume' : ''}" href="${route(book.id)}" aria-label="${started ? 'Czytaj dalej' : 'Czytaj książkę'}: ${escapeHtml(book.title)}"><span>${started ? 'Czytaj dalej' : 'Czytaj książkę'}</span>${icon('arrow')}</a></article>`;
   }).join('');
   const latest = books.map(book => ({ book, saved: progress(book) })).filter(item => item.saved?.page > 1).sort((a,b) => b.saved.updatedAt - a.saved.updatedAt)[0];
   $('continue').hidden = !latest;
@@ -46,6 +48,15 @@ function fail() {
   controls(true);
 }
 async function openBook(book) {
+  if (locked(book)) {
+    showLibrary();
+    $('password-form').reset();
+    $('password-error').hidden = true;
+    $('comic-password').removeAttribute('aria-invalid');
+    if (!$('password-dialog').open) $('password-dialog').showModal();
+    $('comic-password').focus();
+    return;
+  }
   const currentGeneration = ++generation;
   ++renderGeneration;
   renderTask?.cancel();
@@ -166,6 +177,7 @@ function showLibrary() {
   if (lastBookId) document.querySelector(`.book-action[href="${route(lastBookId)}"]`)?.focus({preventScroll:true});
 }
 function handleRoute() {
+  $('password-dialog').close();
   const book = books.find(book => location.hash === route(book.id));
   if (book) openBook(book);
   else { if (location.hash.startsWith('#czytaj/')) history.replaceState(null, '', location.pathname + location.search); showLibrary(); }
@@ -177,6 +189,26 @@ function changePage(value) {
   pageNumber = next;
   renderPage(true);
 }
+$('password-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if ($('comic-password').value !== 'dragonball') {
+    $('password-error').hidden = false;
+    $('comic-password').setAttribute('aria-invalid', 'true');
+    $('comic-password').focus();
+    return;
+  }
+  // shortcut: UI-only gate; actual file authorization belongs on the server.
+  dragonballUnlocked = true;
+  $('password-form').reset();
+  handleRoute();
+});
+function cancelPassword() {
+  $('password-dialog').close();
+  $('password-form').reset();
+  location.hash = '';
+}
+$('password-cancel').addEventListener('click', cancelPassword);
+$('password-dialog').addEventListener('cancel', event => { event.preventDefault(); cancelPassword(); });
 $('previous').addEventListener('click', () => changePage(pageNumber - 1));
 $('next').addEventListener('click', () => changePage(pageNumber + 1));
 $('page-form').addEventListener('submit', event => { event.preventDefault(); changePage($('page-number').value); });

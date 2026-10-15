@@ -63,6 +63,16 @@
       </div>
     </div>
   </section>
+  <dialog id="password-dialog" aria-labelledby="password-title" aria-describedby="password-description">
+    <form id="password-form">
+      <h2 id="password-title">Komiksy Dragon Ball</h2>
+      <p id="password-description">Wpisz hasło, aby otworzyć komiks.</p>
+      <label for="comic-password">Hasło</label>
+      <input id="comic-password" type="password" autocomplete="current-password" required aria-describedby="password-error">
+      <p id="password-error" role="alert" hidden>Nieprawidłowe hasło. Spróbuj ponownie.</p>
+      <div class="password-actions"><button id="password-cancel" type="button">Anuluj</button><button class="primary" type="submit">Otwórz komiks</button></div>
+    </form>
+  </dialog>
   <noscript><p class="wrap">Włącz JavaScript, aby korzystać z biblioteczki i zapamiętywania stron. Możesz też otworzyć książki bezpośrednio: <a href="pdfs/dziewczynka.pdf">Dziewczynka, która znalazła jutro</a>, <a href="pdfs/miasto.pdf">Miasto pod jeziorem</a>, <a href="pdfs/tajemnica.pdf">Tajemnica domu na końcu ulicy</a>, <a href="pdfs/kura.pdf">Wielka afera z kurą, której nikt nie ukradł</a>.</p></noscript>
 </body>
 </html>
