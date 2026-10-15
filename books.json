@@ -30,5 +30,29 @@
     "cover": "assets/covers/kura.jpg",
     "pages": 22,
     "sizeMB": 32
+  },
+  {
+    "id": "komiks",
+    "title": "Czarownica i bardzo zły pomysł — tom 1",
+    "pdf": "pdfs/komiks.pdf",
+    "cover": "assets/covers/komiks.jpg",
+    "pages": 48,
+    "sizeMB": 227
+  },
+  {
+    "id": "dragonball-majtki",
+    "title": "Dragon Ball — Tajemnica znikających majtek",
+    "pdf": "pdfs/dragonball-majtki.pdf",
+    "cover": "assets/covers/dragonball-majtki.jpg",
+    "pages": 6,
+    "sizeMB": 26
+  },
+  {
+    "id": "dragonball-pan-1",
+    "title": "Dragon Ball — Pierwsza wielka wyprawa Pan",
+    "pdf": "pdfs/dragonball-pan-1.pdf",
+    "cover": "assets/covers/dragonball-pan-1.jpg",
+    "pages": 8,
+    "sizeMB": 37
   }
 ]
